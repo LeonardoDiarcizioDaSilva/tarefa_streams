@@ -1,15 +1,10 @@
 import javax.swing.*;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Main {
 
-    private static MapDAO mapDAO;
+    private static MapDAO mapDAO = new MapDAO();
 
     public enum Option {
         CREATE(1),
@@ -29,7 +24,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-        mapDAO = new MapDAO();
         Integer val = 1;
 
         do {
