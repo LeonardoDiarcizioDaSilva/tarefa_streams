@@ -6,20 +6,59 @@ import java.util.stream.Stream;
 
 public class testMain {
 
-    private static MapDAO mapDAO = new MapDAO();
-
     @Test
     public void testFilter() {
 
-        mapDAO.Create(new Client("nome1", "cpf1", "feminino"));
-        mapDAO.Create(new Client("nome2", "cpf2", "feminino"));
-        mapDAO.Create(new Client("nome3", "cpf3", "feminino"));
-        mapDAO.Create(new Client("nome4", "cpf4", "masculino"));
+        ClientServiceExecutor dao = new ClientServiceExecutor();
+        dao.mapDao(new MockMapDAO());
 
-        Collection<Client> clientList = mapDAO.listAll();
+        dao.Create(new Client("nome1", "cpf1", "feminino"));
+        dao.Create(new Client("nome2", "cpf2", "feminino"));
+        dao.Create(new Client("nome3", "cpf3", "feminino"));
+        dao.Create(new Client("nome4", "cpf4", "masculino"));
+
+        Collection<Client> clientList = dao.listAll();
         boolean filterTest = clientList.stream()
                 .filter(client -> client.getGender().equals("feminino"))
                 .allMatch(client -> client.getGender().equals("feminino"));
-        Assert.assertEquals(true, filterTest);
+        Assert.assertTrue(filterTest);
+    }
+
+    @Test
+    public void createTest() {
+        ClientServiceExecutor dao = new ClientServiceExecutor();
+        dao.mapDao(new MockMapDAO());
+
+        boolean verify = dao.Create(new Client("nome1", "cpf1", "feminino"));
+        Assert.assertTrue(verify);
+    }
+
+    @Test
+    public void readTest() {
+        ClientServiceExecutor dao = new ClientServiceExecutor();
+        dao.mapDao(new MockMapDAO());
+        dao.Create(new Client("nome1", "cpf1", "feminino"));
+
+        Assert.assertEquals(Client.class, dao.Read("cpf1").getClass());
+    }
+
+    @Test
+    public void updateTest() {
+        ClientServiceExecutor dao = new ClientServiceExecutor();
+        dao.mapDao(new MockMapDAO());
+        dao.Create(new Client("nome1", "cpf1", "feminino"));
+
+        boolean verify = dao.Update("newName", "cpf1", "newGender");
+        Assert.assertTrue(verify);
+    }
+
+    @Test
+    public void deleteTest() {
+        ClientServiceExecutor dao = new ClientServiceExecutor();
+        dao.mapDao(new MockMapDAO());
+        dao.Create(new Client("nome1", "cpf1", "feminino"));
+
+        boolean verify = dao.Delete("cpf1");
+        Assert.assertTrue(verify);
     }
 }

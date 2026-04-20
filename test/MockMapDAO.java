@@ -2,11 +2,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapDAO implements IMapDAO{
-
+public class MockMapDAO implements IMapDAO{
     private Map<String, Client> map;
 
-    public MapDAO() {
+    public MockMapDAO() {
         this.map = new HashMap<>();
     }
 
